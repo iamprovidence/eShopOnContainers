@@ -30,7 +30,8 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\EventBusServiceBus\EventBusServiceBus.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\EventBus\EventBus.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\IntegrationEventLogEF\IntegrationEventLogEF.csproj" />   
-    <ProjectReference Include="..\..\..\BuildingBlocks\WebHostCustomization\WebHost.Customization\WebHost.Customization.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\WebHostCustomization\WebHost.Customization\WebHost.Customization.csproj" />   
+    <ProjectReference Include="..\Ordering.Application\Ordering.Application.csproj" />
     <ProjectReference Include="..\Ordering.Domain\Ordering.Domain.csproj" />
     <ProjectReference Include="..\Ordering.Infrastructure\Ordering.Infrastructure.csproj" />
   </ItemGroup>
