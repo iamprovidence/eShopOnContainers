@@ -1,6 +1,10 @@
 ﻿namespace Microsoft.eShopOnContainers.Services.Ordering.Domain.Events;
 
-public class OrderCancelledDomainEvent : INotification
+public interface IDomainEvent
+{
+}
+
+public class OrderCancelledDomainEvent : IDomainEvent, INotification // keep INotification for backward compatibility
 {
     public Order Order { get; }
 
@@ -9,4 +13,3 @@ public class OrderCancelledDomainEvent : INotification
         Order = order;
     }
 }
-

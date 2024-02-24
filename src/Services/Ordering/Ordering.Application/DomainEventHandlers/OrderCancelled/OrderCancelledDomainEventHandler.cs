@@ -1,9 +1,10 @@
-﻿using Microsoft.eShopOnContainers.Services.Ordering.Domain.Events;
+﻿using Ordering.Application.Common;
 
 namespace Microsoft.eShopOnContainers.Services.Ordering.API.Application.DomainEventHandlers.OrderCancelled;
 
 public class OrderCancelledDomainEventHandler
-                : INotificationHandler<OrderCancelledDomainEvent>
+    : INotificationHandler<OrderCancelledDomainEvent>,
+        INotificationHandler<DomainEventNotification<OrderCancelledDomainEvent>>
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IBuyerRepository _buyerRepository;
@@ -22,6 +23,12 @@ public class OrderCancelledDomainEventHandler
         _orderingIntegrationEventService = orderingIntegrationEventService;
     }
 
+    public Task Handle(DomainEventNotification<OrderCancelledDomainEvent> notification,
+        CancellationToken cancellationToken)
+    {
+        var domainEvent = notification.DomainEvent;
+    }
+
     public async Task Handle(OrderCancelledDomainEvent orderCancelledDomainEvent, CancellationToken cancellationToken)
     {
         _logger.CreateLogger<OrderCancelledDomainEvent>()
@@ -31,7 +38,8 @@ public class OrderCancelledDomainEventHandler
         var order = await _orderRepository.GetAsync(orderCancelledDomainEvent.Order.Id);
         var buyer = await _buyerRepository.FindByIdAsync(order.GetBuyerId.Value.ToString());
 
-        var orderStatusChangedToCancelledIntegrationEvent = new OrderStatusChangedToCancelledIntegrationEvent(order.Id, order.OrderStatus.Name, buyer.Name);
+        var orderStatusChangedToCancelledIntegrationEvent =
+            new OrderStatusChangedToCancelledIntegrationEvent(order.Id, order.OrderStatus.Name, buyer.Name);
         await _orderingIntegrationEventService.AddAndSaveEventAsync(orderStatusChangedToCancelledIntegrationEvent);
     }
 }
